@@ -1,0 +1,23 @@
+{% extends 'main.html' %} 
+
+{% block content %}
+
+<div class="home-container">
+    <div class="sidebar">
+        <h3>@{{ ticket.user }}</h3> 
+        <a href="/tickets" class="active">My Tickets</a>
+    </div>
+
+    <div class="content">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <p>Are you sure you want to delete "{{ticket.subject}}"? </p>
+            <a href="{%url 'home' %}">Back</a>
+            <!-- <a href="{{request.META.HTTP_PREFERER}}">Back</a> -->
+            <input type="submit" value="Confirm" />
+    
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

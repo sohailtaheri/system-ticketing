@@ -1,0 +1,18 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="home-container">
+    <div class="sidebar">
+        <h3>@{{ user.username }}</h3> 
+        <a href="/tickets" class="active">My Tickets</a>
+    </div>
+
+    <div class="content">
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{form.as_p}}
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+{% endblock %}
