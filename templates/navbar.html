@@ -1,0 +1,20 @@
+<nav class="navbar">
+    <a href="/">
+        <h1 style="color: ghostwhite;">SYSTEM-TICKETING</h1>
+
+        
+        <div class="navbar-buttons">
+            {% if not user.is_authenticated %}
+                <a href="/login">
+                    <h3 style="text-align: right;">Login</h3>
+                </a>
+                <a href="/register">
+                    <h3 style="text-align: right;">Register</h3>
+                </a>
+            {% endif %}
+        </div>
+        
+    </a>
+
+</nav>
+

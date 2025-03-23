@@ -1,0 +1,37 @@
+{% extends 'main.html' %} 
+
+{% block content %}
+
+<div class="home-container">
+    <div class="sidebar">
+        {% if user.is_superuser %}
+            <h3>Admin User</h3>           
+        {% else %}
+            <h3>@{{ user.username }} User</h3>           
+        {% endif %}
+
+        <a href="/tickets" class="active">My Tickets</a>
+    </div>
+
+    <div class="content">
+        <h2>Ticket {{ticket.ticket_id}}</h2>
+
+        {% if user.is_superuser %}
+            <p>User: @{{ticket.user}}</p>
+        {% endif %} 
+
+        Subject     : {{ticket.subject}}<br> 
+        Status      : {{ticket.status}}<br> 
+        Created At  : {{ticket.createdAt}}<br> 
+        Updated At  : {{ticket.updatedAt}}<br>
+        Description : {{ticket.description}}
+
+        {% if ticket.status == 'done' %}
+            <p>Admin's Comment: {{ticket.comment}}</p>
+        {% endif %} 
+    </div>
+</div>
+
+
+
+{% endblock content %}

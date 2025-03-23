@@ -1,0 +1,31 @@
+{% extends 'main.html' %} 
+
+{% block content %}
+
+<div class="home-container">
+    <div class="sidebar">
+        <h3>@{{ ticket.user }}</h3> 
+        <a href="/tickets" class="active">My Tickets</a>
+    </div>
+
+    <div class="content">
+        <h2>Ticket {{ticket.ticket_id}}</h2>
+        Subject     : {{ticket.subject}}<br> 
+        Status      : {{ticket.status}}<br> 
+        Created At  : {{ticket.createdAt}}<br> 
+        Updated At  : {{ticket.updatedAt}}<br>
+        Description : {{ticket.description}}
+
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{form.as_p}}
+            <br>
+            <input type="submit" value="Mark Done">
+        </form>
+
+    </div>
+</div>
+
+
+
+{% endblock content %}

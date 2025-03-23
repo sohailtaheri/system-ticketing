@@ -1,0 +1,107 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="home-container">
+    <div class="sidebar">
+        {% if user.is_authenticated %}
+            <h3>Welcome @{{ user.username }}! 
+            {% if user.is_superuser %}
+                (Administrator)
+            {% else %}
+                (User)
+            {% endif %}
+            </h3>           
+        {% endif %}
+        <a href="/tickets" class="active">My Tickets</a>
+        <a href="/craete_tickets">Create Ticket</a>
+        {% if user.is_authenticated %}
+        <a href="/logout" >Logout</a>
+        {% endif %}
+    </div>
+
+    {% if user.is_authenticated %}
+    <div class="content">
+        <h2>Tickets</h2>
+        <p>
+            Here are your {{ tickets_count }} tickets
+            <a href="/craete_tickets">Create New</a>
+        </p>
+        {% if user.is_superuser %}:
+        <table>
+            <tr>
+                <th>User</th>
+                <th>Subject</th>
+                <th>Ticket ID</th>
+                <th>Created</th>
+                <th>Modified</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            {% for ticket in tickets %}
+                <tr>
+                    <td>{{ ticket.user }}</td>
+                    <td>{{ ticket.subject }}</td>
+                    <td>{{ ticket.ticketId }}</td>
+                    <td>{{ ticket.createdAt }}</td>
+                    <td>{{ ticket.updatedAt }}</td>
+                    <td>{{ ticket.status }}</td>
+                    <td>
+                        {% if ticket.status == 'open' %}
+                            <a href="{% url 'view_ticket' ticket.ticketId %}">View</a>
+                            <a href="{% url 'edit_ticket' ticket.ticketId %}">Edit</a>
+                            <a href="{% url 'delete_ticket' ticket.ticketId %}">Delete</a>
+                            <a href="{% url 'complete_ticket' ticket.ticketId %}">Mark Complete</a>
+                        {% elif ticket.status == 'complete' %}
+                            <a href="{% url 'view_ticket' ticket.ticketId %}">View</a>
+                            <a href="{% url 'delete_ticket' ticket.ticketId %}">Delete</a>
+                            <a href="{% url 'close_ticket' ticket.ticketId %}">Mark Done</a>
+                        {% else %}
+                            <a href="{% url 'view_ticket' ticket.ticketId %}">View</a>
+                            <a href="{% url 'delete_ticket' ticket.ticketId %}">Delete</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        {% else %}
+            <table>
+                <tr>
+                    <th>Subject</th>
+                    <th>Ticket ID</th>
+                    <th>Created</th>
+                    <th>Modified</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                {% for ticket in tickets %}
+                    <tr>
+                        <td>{{ ticket.subject }}</td>
+                        <td>{{ ticket.ticketId }}</td>
+                        <td>{{ ticket.createdAt }}</td>
+                        <td>{{ ticket.updatedAt }}</td>
+                        <td>{{ ticket.status }}</td>
+                        <td>
+                            {% if ticket.status == 'open' %}
+                                <a href="{% url 'view_ticket' ticket.ticketId %}">View</a>
+                                <a href="{% url 'edit_ticket' ticket.ticketId %}">Edit</a>
+                                <a href="{% url 'delete_ticket' ticket.ticketId %}">Delete</a>
+                                <a href="{% url 'complete_ticket' ticket.ticketId %}">Mark Complete</a>
+                            {% else %}
+                                <a href="{% url 'view_ticket' ticket.ticketId %}">View</a>
+                                <a href="{% url 'delete_ticket' ticket.ticketId %}">Delete</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+
+    </div>
+    {% else %}
+        <h2>Please login to view your tickets</h2>
+    {% endif %}
+</div>
+
+{% endblock %}
